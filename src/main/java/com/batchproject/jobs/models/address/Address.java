@@ -1,5 +1,6 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.address;
 
+import com.batchproject.jobs.models.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "address")
 @Entity
-public class Address extends BaseEntity{
+public class Address extends BaseEntity {
 
     @Column(name = "apartment_no")
     private Integer apartmentNo;

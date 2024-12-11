@@ -1,4 +1,4 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.address;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

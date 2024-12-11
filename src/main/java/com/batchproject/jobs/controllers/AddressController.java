@@ -1,6 +1,6 @@
 package com.batchproject.jobs.controllers;
 
-import com.batchproject.jobs.models.Address;
+import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

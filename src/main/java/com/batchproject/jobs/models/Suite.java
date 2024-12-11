@@ -1,5 +1,6 @@
 package com.batchproject.jobs.models;
 
+import com.batchproject.jobs.models.address.Address;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.batchproject.jobs.services;
 
-import com.batchproject.jobs.models.Address;
-import com.batchproject.jobs.models.AddressRepository;
+import com.batchproject.jobs.models.address.Address;
+import com.batchproject.jobs.models.address.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
