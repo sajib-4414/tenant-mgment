@@ -1,6 +1,7 @@
 package com.batchproject.jobs.models;
 
 import com.batchproject.jobs.models.address.Address;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,15 +13,36 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Suite {
+@Table(name = "suite")
+@Entity
+public class Suite extends BaseEntity{
+    @OneToOne
+    @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "fk_address"))
     private Address address;
+
+    @Column(name = "built_on")
     private LocalDate builtOn;
+
+    @Column(name = "last_renovated_on")
     private LocalDate lastRenovatedOn;
-    private Integer NoOfBedRooms;
-    private Integer NoOfBathRooms;
+
+    @Column(name = "no_of_bedrooms")
+    private Integer noOfBedRooms;
+
+    @Column(name = "no_of_bathrooms")
+    private Integer noOfBathRooms;
+
+    @Column(name = "have_dedicated_laundry")
     private Boolean haveDedicatedLaundry;
+
+    @Column(name = "floor_no")
     private Integer floorNo;
+
     //even if its a house, it will be attached to a building
+    @ManyToOne
+    @JoinColumn(name = "building_id", foreignKey = @ForeignKey(name = "fk_building"))
     private HousingBuilding building;
+
+
 
 }

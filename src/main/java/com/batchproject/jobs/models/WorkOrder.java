@@ -19,6 +19,7 @@ public class WorkOrder {
     private String status; // e.g., "Pending", "In Progress", "Completed"
     private String notes;
     private Suite suite;
+    private HousingBuilding building;
     private Maintenance maintenance;
 
 }
