@@ -9,9 +9,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Data
-@Table(name = "maintenance")
+//@Entity
+//@Data
+//@Table(name = "maintenance")
 public class Maintenance extends BaseEntity {
 
     @Column(name = "issue_description", nullable = false)

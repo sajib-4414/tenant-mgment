@@ -19,4 +19,5 @@ public class Rent extends BaseEntity{
     private String status;
     private TenantProfile tenantProfile;
     private Suite suite;
+
 }
