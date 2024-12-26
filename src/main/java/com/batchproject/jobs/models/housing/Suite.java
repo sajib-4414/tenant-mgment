@@ -1,5 +1,6 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.housing;
 
+import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.address.Address;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Table(name = "suite")
 @Entity
-public class Suite extends BaseEntity{
+public class Suite extends BaseEntity {
     @OneToOne
     @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "fk_address"))
     private Address address;

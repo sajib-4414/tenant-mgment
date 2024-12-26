@@ -1,5 +1,8 @@
 package com.batchproject.jobs.models;
 
+import com.batchproject.jobs.models.housing.HousingBuilding;
+import com.batchproject.jobs.models.housing.Suite;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,13 +16,35 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkOrder {
+@Entity
+@Table(name = "work_order")
+public class WorkOrder extends BaseEntity{
+
+
+    @Column(name = "description", nullable = false)
     private String description;
+
+    @Column(name = "completed_date")
     private LocalDate completedDate;
-    private String status; // e.g., "Pending", "In Progress", "Completed"
+
+    @Column(name = "status", nullable = false) // e.g., "Pending", "In Progress", "Completed"
+    private String status;
+
+    @Column(name = "notes")
     private String notes;
+
+    @ManyToOne
+    @JoinColumn(name = "suite_id", nullable = false)
     private Suite suite;
+
+    @ManyToOne
+    @JoinColumn(name = "housing_building_id", nullable = false)
     private HousingBuilding building;
+
+    @ManyToOne
+    @JoinColumn(name = "maintenance_id", nullable = false)
     private Maintenance maintenance;
 
+    // Getters and Setters
 }
+

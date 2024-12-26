@@ -1,23 +1,32 @@
 package com.batchproject.jobs.models;
 
-import lombok.AllArgsConstructor;
+import com.batchproject.jobs.models.housing.Suite;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 //this rent will be created by system, at the end of month, this is another job.
+@Entity
+@Table(name = "rent")
 public class Rent extends BaseEntity{
+    @Column(name = "amount")
     private int amount;
+    @Column(name = "due_date")
     private LocalDate dueDate;
+    @Column(name = "paid_date")
     private LocalDate paidDate;
+    @Column(name = "status")
     private String status;
-    private TenantProfile tenantProfile;
-    private Suite suite;
 
+    @JoinColumn(name = "tenant_profile")
+    @ManyToOne
+    private TenantProfile tenantProfile;
+
+    @JoinColumn(name = "suite_id")
+    @ManyToOne
+    private Suite suite;
 }
