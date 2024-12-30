@@ -1,5 +1,7 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.tenant;
 
+import com.batchproject.jobs.models.BaseEntity;
+import com.batchproject.jobs.models.housing.HousingBuilding;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -8,7 +10,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name="tenant_history")
 @Data
-public class TenantHistory extends BaseEntity{
+public class TenantHistory extends BaseEntity {
 
     @JoinColumn(name = "tenant_profile_id")
     @ManyToOne
@@ -19,6 +21,7 @@ public class TenantHistory extends BaseEntity{
     private LocalDate endDate; //no end date means its current
     @Column(name = "is_current_tenant")
     private Boolean isCurrentTenant; //also yes means currently renting
-//    @JoinColumn(name = "housing_building_stayed")
-//    private HousingBuilding buildingStayed;
+    @JoinColumn(name = "housing_building_stayed")
+    @ManyToOne
+    private HousingBuilding buildingStayed;
 }

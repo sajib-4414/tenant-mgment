@@ -1,5 +1,6 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.maintenance;
 
+import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.housing.HousingBuilding;
 import com.batchproject.jobs.models.housing.Suite;
 import jakarta.persistence.*;
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "work_order")
-public class WorkOrder extends BaseEntity{
+public class WorkOrder extends BaseEntity {
 
 
     @Column(name = "description", nullable = false)

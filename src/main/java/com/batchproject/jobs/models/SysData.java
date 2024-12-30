@@ -11,9 +11,9 @@ import jakarta.persistence.Table;
 wash price, dry price
 has basement
  */
-@Table(name = "metadata", indexes = @Index(columnList = "table_name"))
+@Table(name = "sysdata", indexes = @Index(columnList = "table_name"))
 @Entity
-public class Metadata extends BaseEntity{
+public class SysData extends BaseEntity{
     @Column(name = "table_name")
     String tableName;
 

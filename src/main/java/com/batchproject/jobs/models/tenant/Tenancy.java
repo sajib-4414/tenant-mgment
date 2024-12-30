@@ -1,5 +1,6 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.tenant;
 
+import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.housing.Suite;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "tenancy")
-public class Tenancy extends BaseEntity{
+public class Tenancy extends BaseEntity {
     @JoinColumn(name = "suite_id")
     @ManyToOne
     private Suite suite;

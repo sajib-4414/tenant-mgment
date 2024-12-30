@@ -1,5 +1,7 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.rent;
 
+import com.batchproject.jobs.models.BaseEntity;
+import com.batchproject.jobs.models.tenant.TenantProfile;
 import com.batchproject.jobs.models.housing.Suite;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -12,7 +14,7 @@ import java.time.LocalDate;
 //this rent will be created by system, at the end of month, this is another job.
 @Entity
 @Table(name = "rent")
-public class Rent extends BaseEntity{
+public class Rent extends BaseEntity {
     @Column(name = "amount")
     private int amount;
     @Column(name = "due_date")

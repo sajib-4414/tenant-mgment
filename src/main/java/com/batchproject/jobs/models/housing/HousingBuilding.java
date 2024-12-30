@@ -4,6 +4,7 @@ import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.address.Address;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "housing_building")
 @Entity
 @Data
+@Builder
 public class HousingBuilding extends BaseEntity {
     @Column(name = "name")
     private String name;

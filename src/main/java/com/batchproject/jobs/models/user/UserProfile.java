@@ -1,6 +1,10 @@
-package com.batchproject.jobs.models;
+package com.batchproject.jobs.models.user;
 
+import com.batchproject.jobs.models.BaseEntity;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Index;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +18,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserProfile extends BaseEntity{
+@Entity
+@Table(
+        name = "user_profile",
+        indexes = {
+                @Index(name = "idx_keycloak_user_id", columnList = "keycloak_user_id")
+        }
+)
+
+public class UserProfile extends BaseEntity {
     @Column(name = "keycloak_user_id", unique = true, nullable = false)
     private String keycloakUserId; // This will link to the Keycloak user's ID
 
