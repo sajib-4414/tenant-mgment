@@ -32,7 +32,7 @@ public class HousingController {
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<ResponseEntity<HousingBuilding>> getBuildingById(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<HousingBuilding>> getBuildingById(@PathVariable Long id) {
 
         CompletableFuture<ResponseEntity<HousingBuilding>> future = housingService.getBuildingById(id)
                 .thenApply(result -> {
@@ -58,7 +58,7 @@ public class HousingController {
 
     @PutMapping("/{id}")
     public CompletableFuture<ResponseEntity<HousingBuilding>> updateBuilding(
-            @PathVariable Integer id, @RequestBody HousingDTO payload) {
+            @PathVariable Long id, @RequestBody HousingDTO payload) {
 
         return housingService.updateBuilding(id, payload)
                 .thenApply(ResponseEntity::ok)
@@ -68,7 +68,7 @@ public class HousingController {
     }
 
     @DeleteMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Void>> deleteBuilding(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<Void>> deleteBuilding(@PathVariable Long id) {
         return housingService.deleteBuilding(id)
                 .thenApply(unused -> ResponseEntity.noContent().<Void>build())
                 .exceptionally(ex -> {

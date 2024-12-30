@@ -24,7 +24,7 @@ public class SuitService {
     }
 
     @Async
-    public CompletableFuture<Suite> getSuiteById(Integer id)  {
+    public CompletableFuture<Suite> getSuiteById(Long id)  {
         return CompletableFuture.completedFuture(suiteRepository.findById(id).orElseThrow(()->new RuntimeException("suite was not found")));
     }
 
@@ -54,7 +54,7 @@ public class SuitService {
 
     @Async
     @Transactional
-    public CompletableFuture<Void> deleteSuite(Integer id) {
+    public CompletableFuture<Void> deleteSuite(Long id) {
         if (suiteRepository.existsById(id)) {
             suiteRepository.deleteById(id);
             return CompletableFuture.completedFuture(null);

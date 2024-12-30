@@ -18,7 +18,7 @@ public class SysData extends BaseEntity{
     String tableName;
 
     @Column(name = "reference_id")
-    Integer referenceId;
+    Long referenceId;
 
     @Column(name = "key")
     String key;

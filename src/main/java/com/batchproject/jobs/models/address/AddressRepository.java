@@ -6,6 +6,6 @@ import org.springframework.scheduling.annotation.Async;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public interface AddressRepository extends JpaRepository<Address, Integer> {
+public interface AddressRepository extends JpaRepository<Address, Long> {
 
 }

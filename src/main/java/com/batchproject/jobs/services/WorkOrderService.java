@@ -32,7 +32,7 @@ public class WorkOrderService {
     }
 
     @Async
-    public CompletableFuture<WorkOrder> getWorkOrderDetail(Integer id) {
+    public CompletableFuture<WorkOrder> getWorkOrderDetail(Long id) {
 
         return CompletableFuture.completedFuture(
                 workOrderRepository.findById(id)
@@ -53,7 +53,7 @@ public class WorkOrderService {
     }
 
     @Async
-    public CompletableFuture<WorkOrderDTO> updateWorkOrder(Integer id, WorkOrderDTO updatedDto) {
+    public CompletableFuture<WorkOrderDTO> updateWorkOrder(Long id, WorkOrderDTO updatedDto) {
         return CompletableFuture.supplyAsync(() -> {
             WorkOrder workOrder = workOrderRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("WorkOrder not found with id: " + id));
@@ -87,7 +87,7 @@ public class WorkOrderService {
     }
 
     @Async
-    public CompletableFuture<Void> deleteWorkOrder(Integer id) {
+    public CompletableFuture<Void> deleteWorkOrder(Long id) {
 
         if (!workOrderRepository.existsById(id)) {
             throw new EntityNotFoundException("WorkOrder not found with id: " + id);

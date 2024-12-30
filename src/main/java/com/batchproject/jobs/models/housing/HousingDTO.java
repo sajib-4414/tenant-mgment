@@ -10,5 +10,5 @@ public class HousingDTO {
     private Boolean hasInHouseLaundry;
     private LocalDate possessedOn;
     private LocalDate builtOn;
-    private Integer address_id;
+    private Long address_id;
 }

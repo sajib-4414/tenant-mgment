@@ -26,7 +26,7 @@ public class WorkOrderController {
                 });
     }
     @GetMapping("/{id}")
-    public CompletableFuture<ResponseEntity<WorkOrder>> getWorkOrderDetail(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<WorkOrder>> getWorkOrderDetail(@PathVariable Long id) {
         return workOrderService.getWorkOrderDetail(id)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(ex -> {
@@ -36,7 +36,7 @@ public class WorkOrderController {
     }
 
     @PutMapping("/{id}")
-    public CompletableFuture<ResponseEntity<WorkOrderDTO>> updateWorkOrder(@PathVariable Integer id, @RequestBody WorkOrderDTO updatedDto) {
+    public CompletableFuture<ResponseEntity<WorkOrderDTO>> updateWorkOrder(@PathVariable Long id, @RequestBody WorkOrderDTO updatedDto) {
         return workOrderService.updateWorkOrder(id, updatedDto)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(ex -> {
@@ -46,7 +46,7 @@ public class WorkOrderController {
     }
 
     @DeleteMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Void>> deleteWorkOrder(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<Void>> deleteWorkOrder(@PathVariable Long id) {
         return workOrderService.deleteWorkOrder(id)
                 .thenApply(unused -> ResponseEntity.noContent().<Void>build())
                 .exceptionally(ex -> {

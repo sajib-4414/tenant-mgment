@@ -53,7 +53,7 @@ public class RentService {
     }
 
     @Async
-    public CompletableFuture<Rent> updateRent(Integer rentId, RentDTO rentDTO) {
+    public CompletableFuture<Rent> updateRent(Long rentId, RentDTO rentDTO) {
         Optional<Rent> rentOpt = rentRepository.findById(rentId);
         if (!rentOpt.isPresent()) {
             throw new RuntimeException("Rent not found");
@@ -82,7 +82,7 @@ public class RentService {
     }
 
     @Async
-    public CompletableFuture<Void> deleteRent(Integer rentId) {
+    public CompletableFuture<Void> deleteRent(Long rentId) {
         Optional<Rent> rentOpt = rentRepository.findById(rentId);
         if (!rentOpt.isPresent()) {
             throw new RuntimeException("Rent not found");

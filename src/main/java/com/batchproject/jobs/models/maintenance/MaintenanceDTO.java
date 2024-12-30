@@ -10,5 +10,5 @@ public class MaintenanceDTO {
     private LocalDate requestDate;
     private String priority; // e.g., "Low", "Medium", "High"
     private String status;   // e.g., "Open", "Closed"
-    private Integer suiteId;    // ID of the associated suite
+    private Long suiteId;    // ID of the associated suite
 }

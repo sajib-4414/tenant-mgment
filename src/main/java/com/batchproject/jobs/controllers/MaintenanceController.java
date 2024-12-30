@@ -29,7 +29,7 @@ public class MaintenanceController {
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Maintenance>> getMaintenanceDetail(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<Maintenance>> getMaintenanceDetail(@PathVariable Long id) {
         return maintenanceService.getMaintenanceDetail(id)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(ex -> {
@@ -39,7 +39,7 @@ public class MaintenanceController {
     }
 
     @PutMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Maintenance>> updateMaintenance(@PathVariable Integer id, @RequestBody MaintenanceDTO updatedDto) {
+    public CompletableFuture<ResponseEntity<Maintenance>> updateMaintenance(@PathVariable Long id, @RequestBody MaintenanceDTO updatedDto) {
         return maintenanceService.updateMaintenance(id, updatedDto)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(ex -> {
@@ -49,7 +49,7 @@ public class MaintenanceController {
     }
 
     @DeleteMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Void>> deleteMaintenance(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<Void>> deleteMaintenance(@PathVariable Long id) {
         return maintenanceService.deleteMaintenance(id)
                 .thenApply(unused -> ResponseEntity.noContent().<Void>build())
                 .exceptionally(ex -> {

@@ -29,7 +29,7 @@ public class SuiteController {
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Suite>> getSuiteById(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<Suite>> getSuiteById(@PathVariable Long id) {
         return suiteService.getSuiteById(id)
                 .thenApply(ResponseEntity::ok)
                 .exceptionally(ex -> {
@@ -47,7 +47,7 @@ public class SuiteController {
     }
 
     @DeleteMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Void>> deleteSuite(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<Void>> deleteSuite(@PathVariable Long id) {
         return suiteService.deleteSuite(id)
                 .thenApply(unused -> ResponseEntity.noContent().<Void>build())
                 .exceptionally(ex -> {

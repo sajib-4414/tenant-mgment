@@ -27,14 +27,14 @@ public class MaintenanceService {
     }
 
     @Async
-    public CompletableFuture<Maintenance> getMaintenanceDetail(Integer id) {
+    public CompletableFuture<Maintenance> getMaintenanceDetail(Long id) {
         return CompletableFuture.completedFuture(
                 maintenanceRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Maintenance not found with id: " + id)));
 
     }
 
     @Async
-    public CompletableFuture<Maintenance> updateMaintenance(Integer id, MaintenanceDTO updatedDto) {
+    public CompletableFuture<Maintenance> updateMaintenance(Long id, MaintenanceDTO updatedDto) {
             Maintenance maintenance = maintenanceRepository.findById(id)
                     .orElseThrow(() -> new EntityNotFoundException("Maintenance not found with id: " + id));
 
@@ -54,7 +54,7 @@ public class MaintenanceService {
     }
 
     @Async
-    public CompletableFuture<Void> deleteMaintenance(Integer id) {
+    public CompletableFuture<Void> deleteMaintenance(Long id) {
         return CompletableFuture.runAsync(() -> {
             if (!maintenanceRepository.existsById(id)) {
                 throw new EntityNotFoundException("Maintenance not found with id: " + id);

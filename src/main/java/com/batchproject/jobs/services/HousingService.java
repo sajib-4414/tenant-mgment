@@ -28,7 +28,7 @@ public class HousingService {
     }
 
     @Async
-    public CompletableFuture<Optional<HousingBuilding>> getBuildingById(Integer id) {
+    public CompletableFuture<Optional<HousingBuilding>> getBuildingById(Long id) {
         return CompletableFuture.completedFuture(housingBuildingRepository.findById(id));
     }
 
@@ -50,7 +50,7 @@ public class HousingService {
 
     @Async
     @Transactional
-    public CompletableFuture<HousingBuilding> updateBuilding(Integer id, HousingDTO payload){
+    public CompletableFuture<HousingBuilding> updateBuilding(Long id, HousingDTO payload){
         HousingBuilding building =  housingBuildingRepository.findById(id)
                 .map(housingBuilding ->{
                             housingBuilding.setName(payload.getName());
@@ -67,7 +67,7 @@ public class HousingService {
 
     @Async
     @Transactional
-    public CompletableFuture<Void> deleteBuilding(Integer id) {
+    public CompletableFuture<Void> deleteBuilding(Long id) {
         if (housingBuildingRepository.existsById(id)) {
             housingBuildingRepository.deleteById(id);
             return CompletableFuture.completedFuture(null);

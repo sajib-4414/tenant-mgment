@@ -36,7 +36,7 @@ public class RentController {
     }
 
     @PutMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Rent>> updateRent(@PathVariable Integer id, @RequestBody RentDTO rentDTO) {
+    public CompletableFuture<ResponseEntity<Rent>> updateRent(@PathVariable Long id, @RequestBody RentDTO rentDTO) {
         return rentService.updateRent(id, rentDTO)
                 .thenApply(updatedRent -> ResponseEntity.status(HttpStatus.OK).body(updatedRent))
                 .exceptionally(ex -> {
@@ -45,7 +45,7 @@ public class RentController {
     }
 
     @DeleteMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Void>> deleteRent(@PathVariable Integer id) {
+    public CompletableFuture<ResponseEntity<Void>> deleteRent(@PathVariable Long id) {
         return rentService.deleteRent(id)
                 .thenApply(response -> ResponseEntity.status(HttpStatus.NO_CONTENT).<Void>build())
                 .exceptionally(ex -> {

@@ -10,6 +10,6 @@ public class RentDTO {
     private LocalDate dueDate;
     private LocalDate paidDate;
     private String status;
-    private Integer tenantProfileId; // Using tenant profile ID as reference
-    private Integer suiteId; // Using suite ID as reference
+    private Long tenantProfileId; // Using tenant profile ID as reference
+    private Long suiteId; // Using suite ID as reference
 }

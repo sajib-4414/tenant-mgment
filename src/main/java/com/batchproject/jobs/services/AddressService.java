@@ -28,7 +28,7 @@ public class AddressService {
     }
 
     @Async
-    public CompletableFuture<Address> getAddressById(Integer id) {
+    public CompletableFuture<Address> getAddressById(Long id) {
         return  CompletableFuture.completedFuture(addressRepository.findById(id).orElseThrow(()->new RuntimeException("address could not be found")));
     }
 
@@ -41,7 +41,7 @@ public class AddressService {
 
     @Async
     @Transactional
-    public CompletableFuture<Void> deleteAddress(Integer id) {
+    public CompletableFuture<Void> deleteAddress(Long id) {
         if (addressRepository.existsById(id)) {
             addressRepository.deleteById(id);
             return CompletableFuture.completedFuture(null);
