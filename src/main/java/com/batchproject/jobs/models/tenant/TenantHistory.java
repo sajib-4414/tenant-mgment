@@ -3,6 +3,7 @@ package com.batchproject.jobs.models.tenant;
 import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.housing.HousingBuilding;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name="tenant_history")
 @Data
+@Builder
 public class TenantHistory extends BaseEntity {
 
     @JoinColumn(name = "tenant_profile_id")
