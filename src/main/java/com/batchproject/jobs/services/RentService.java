@@ -7,6 +7,7 @@ import com.batchproject.jobs.models.rent.RentDTO;
 import com.batchproject.jobs.models.rent.RentRepository;
 import com.batchproject.jobs.models.tenant.TenantProfile;
 import com.batchproject.jobs.models.tenant.TenantProfileRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,7 @@ public class RentService {
     }
 
     @Async
+    @Transactional
     public CompletableFuture<Rent> updateRent(Long rentId, RentDTO rentDTO) {
         Optional<Rent> rentOpt = rentRepository.findById(rentId);
         if (!rentOpt.isPresent()) {
@@ -82,6 +84,7 @@ public class RentService {
     }
 
     @Async
+    @Transactional
     public CompletableFuture<Void> deleteRent(Long rentId) {
         Optional<Rent> rentOpt = rentRepository.findById(rentId);
         if (!rentOpt.isPresent()) {

@@ -47,3 +47,10 @@ create people, change.
 - we need cleanup process, which cleans job after set time like 3-5 days.
 - spring's default tables for batch job are not optimized at all. We need to put index on job execution,
 steps these kind of columns.
+
+
+Features to work
+- option to create a building, then suite(with rent)
+- option to rent it to somebody
+- option to create rent with spring scheduler
+- option to mark a rent as paid
