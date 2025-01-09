@@ -19,40 +19,24 @@ public class WorkOrderController {
     @GetMapping
     public CompletableFuture<ResponseEntity<List<WorkOrder>>> getAllWorkOrders() {
         return workOrderService.getAllWorkOrders()
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
     @GetMapping("/{id}")
     public CompletableFuture<ResponseEntity<WorkOrder>> getWorkOrderDetail(@PathVariable Long id) {
         return workOrderService.getWorkOrderDetail(id)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @PutMapping("/{id}")
     public CompletableFuture<ResponseEntity<WorkOrderDTO>> updateWorkOrder(@PathVariable Long id, @RequestBody WorkOrderDTO updatedDto) {
         return workOrderService.updateWorkOrder(id, updatedDto)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @DeleteMapping("/{id}")
     public CompletableFuture<ResponseEntity<Void>> deleteWorkOrder(@PathVariable Long id) {
         return workOrderService.deleteWorkOrder(id)
-                .thenApply(unused -> ResponseEntity.noContent().<Void>build())
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-                });
+                .thenApply(unused -> ResponseEntity.noContent().<Void>build());
     }
 
 

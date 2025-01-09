@@ -3,6 +3,7 @@ package com.batchproject.jobs.controllers;
 
 import com.batchproject.jobs.models.housing.Suite;
 import com.batchproject.jobs.models.housing.SuiteDTO;
+import com.batchproject.jobs.models.housing.SuiteOutputDTO;
 import com.batchproject.jobs.services.SuitService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,36 +23,25 @@ public class SuiteController {
     @GetMapping
     public CompletableFuture<ResponseEntity<List<Suite>>> getAllSuites() {
         return suiteService.getAllSuites()
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<ResponseEntity<Suite>> getSuiteById(@PathVariable Long id) {
-        return suiteService.getSuiteById(id)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-                });
+    public CompletableFuture<ResponseEntity<SuiteOutputDTO>> getSuiteById(@PathVariable Long id) {
+        return suiteService.getSuiteDetails(id)
+                .thenApply(ResponseEntity::ok);
     }
 
     @PostMapping
-    public CompletableFuture<ResponseEntity<Suite>> createSuite(@RequestBody SuiteDTO suiteDTO) {
-        return suiteService.saveSuite(suiteDTO)
-                .thenApply(savedSuite -> ResponseEntity.status(HttpStatus.CREATED).body(savedSuite))
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+    public CompletableFuture<ResponseEntity<Suite>> createSuite(@RequestBody SuiteDTO suiteDTO) throws CloneNotSupportedException {
+        return suiteService.createSuite(suiteDTO)
+                .thenApply(ResponseEntity::ok);
     }
 
     @DeleteMapping("/{id}")
     public CompletableFuture<ResponseEntity<Void>> deleteSuite(@PathVariable Long id) {
         return suiteService.deleteSuite(id)
-                .thenApply(unused -> ResponseEntity.noContent().<Void>build())
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).<Void>build();
-                });
+                .thenApply(unused -> ResponseEntity.noContent().<Void>build());
+
     }
 }

@@ -2,10 +2,13 @@ package com.batchproject.jobs.models.housing;
 
 import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.address.Address;
+import com.batchproject.jobs.models.maintenance.WorkOrder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,6 +18,8 @@ import java.util.List;
 @Entity
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class HousingBuilding extends BaseEntity {
     @Column(name = "name")
     private String name;
@@ -37,4 +42,9 @@ public class HousingBuilding extends BaseEntity {
     @Temporal(TemporalType.DATE)
     @Column(name = "built_on")
     private LocalDate builtOn;
+
+    @OneToMany(mappedBy = "building")
+    @JsonIgnore
+    private List<WorkOrder> workOrderList;
+
 }

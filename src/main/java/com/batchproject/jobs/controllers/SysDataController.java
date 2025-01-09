@@ -51,12 +51,7 @@ public class SysDataController {
 
         //getAllSysData is an async method
         CompletableFuture<ResponseEntity<List<SysData>>> future = sysDataService.getAllSysData()
-                .thenApply(result -> {
-                    return ResponseEntity.ok(result);
-                })
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
         return future;
     }
 }

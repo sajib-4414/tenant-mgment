@@ -1,9 +1,13 @@
 package com.batchproject.jobs.services;
 
+import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
+import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
 import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.models.address.AddressRepository;
 import com.batchproject.jobs.models.housing.*;
+import com.batchproject.jobs.models.rent.RentPriceRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +19,10 @@ import java.util.concurrent.CompletableFuture;
 @AllArgsConstructor
 public class SuitService {
     private final SuiteRepository suiteRepository;
-    private final AddressRepository addressRepository;
     private final HousingBuildingRepository housingBuildingRepository;
+    private final RentPriceRepository rentPriceRepository;
+    private final AddressRepository addressRepository;
+    private ModelMapper modelMapper;
 
     @Async
     public CompletableFuture<List<Suite>> getAllSuites() {
@@ -24,28 +30,57 @@ public class SuitService {
     }
 
     @Async
-    public CompletableFuture<Suite> getSuiteById(Long id)  {
-        return CompletableFuture.completedFuture(suiteRepository.findById(id).orElseThrow(()->new RuntimeException("suite was not found")));
+    public CompletableFuture<SuiteOutputDTO> getSuiteDetails(Long id)  {
+        Suite suite = suiteRepository.findById(id).orElseThrow(()->new ItemNotFoundException("suite was not found"));
+        SuiteOutputDTO outputDTO = modelMapper.map(suite, SuiteOutputDTO.class);
+        outputDTO.setRent(rentPriceRepository.getLatestRentPrice(id));
+        return CompletableFuture.completedFuture(outputDTO);
     }
 
     @Async
     @Transactional
-    public CompletableFuture<Suite> saveSuite(SuiteDTO suiteDTO) {
+    public CompletableFuture<Suite> createSuite(SuiteDTO payload) throws CloneNotSupportedException {
         // Fetch associated entities by IDs
-        Address address = addressRepository.findById(suiteDTO.getAddressId())
-                .orElseThrow(() -> new RuntimeException("Address not found with id " + suiteDTO.getAddressId()));
-        HousingBuilding building = housingBuildingRepository.findById(suiteDTO.getBuildingId())
-                .orElseThrow(() -> new RuntimeException("Building not found with id " + suiteDTO.getBuildingId()));
+
+        HousingBuilding building = housingBuildingRepository.findById(payload.getBuildingId())
+                .orElseThrow(() -> new BadDataException("Building not found with id " + payload.getBuildingId()));
+
+        //also see if the suite exists already
+
+        Address buildingAddress = building.getAddress();
+
+        Address suiteAddress;
+        if (!buildingAddress.getIsHouse()){
+            if(payload.getApartmentNo() == null)
+                throw new BadDataException("apartment no is not provided");
+            suiteAddress = Address
+                    .builder()
+                    .isHouse(false)
+                    .province(buildingAddress.getProvince())
+                    .postCode(buildingAddress.getPostCode())
+                    .streetName(buildingAddress.getStreetName())
+                    .streetNo(buildingAddress.getStreetNo())
+                    .apartmentNo(payload.getApartmentNo())
+                    .build();
+            Address existingAddress = addressRepository.findByAddressHash(suiteAddress.getAddressHash());
+            if(existingAddress!=null)
+                suiteAddress.setId(existingAddress.getId());//it will not recreate now
+        }
+        else{
+            if(payload.getApartmentNo() != null)
+                throw new BadDataException("apartment no cannot be added to house");
+            suiteAddress = buildingAddress;
+        }
 
         // Create Suite entity and populate fields
         Suite suite = new Suite();
-        suite.setAddress(address);
-        suite.setBuiltOn(suiteDTO.getBuiltOn());
-        suite.setLastRenovatedOn(suiteDTO.getLastRenovatedOn());
-        suite.setNoOfBedRooms(suiteDTO.getNoOfBedRooms());
-        suite.setNoOfBathRooms(suiteDTO.getNoOfBathRooms());
-        suite.setHaveDedicatedLaundry(suiteDTO.getHaveDedicatedLaundry());
-        suite.setFloorNo(suiteDTO.getFloorNo());
+        suite.setAddress(suiteAddress);
+        suite.setBuiltOn(payload.getBuiltOn());
+        suite.setLastRenovatedOn(payload.getLastRenovatedOn());
+        suite.setNoOfBedRooms(payload.getNoOfBedRooms());
+        suite.setNoOfBathRooms(payload.getNoOfBathRooms());
+        suite.setHaveDedicatedLaundry(payload.getHaveDedicatedLaundry());
+        suite.setFloorNo(payload.getFloorNo());
         suite.setBuilding(building);
 
         // Save and return

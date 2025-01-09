@@ -23,50 +23,30 @@ public class TenancyController {
     @GetMapping
     public CompletableFuture<ResponseEntity<List<Tenancy>>> getAllTenancies() {
         return tenancyService.getAllTenancies()
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @PostMapping
     public CompletableFuture<ResponseEntity<Tenancy>> createTenancy(@RequestBody TenancyDTO tenancyDTO) {
         return tenancyService.createTenancy(tenancyDTO)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @GetMapping("/{id}")
     public CompletableFuture<ResponseEntity<Tenancy>> getTenancyById(@PathVariable Long id) {
         return tenancyService.getTenancyById(id)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @PutMapping("/{id}")
     public CompletableFuture<ResponseEntity<Tenancy>> updateTenancy(@PathVariable Long id, @RequestBody TenancyDTO tenancyDTO) {
         return tenancyService.updateTenancy(id, tenancyDTO)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @DeleteMapping("/{id}")
     public CompletableFuture<ResponseEntity<Void>> deleteTenancy(@PathVariable Long id) {
         return tenancyService.deleteTenancy(id)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 }

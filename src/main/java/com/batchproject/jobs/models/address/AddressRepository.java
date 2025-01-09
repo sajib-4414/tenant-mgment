@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
-
+    Address findByAddressHash(String hash);
 }

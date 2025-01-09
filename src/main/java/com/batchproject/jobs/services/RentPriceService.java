@@ -30,8 +30,8 @@ public class RentPriceService {
 
         RentPrice rentPrice = RentPrice.builder()
                 .rentAmt(payload.getRentAmt())
-                .effectiveEndDate(payload.getEffectiveStartDate())
-                .effectiveEndDate(payload.getEffectiveStartDate())
+                .effectiveStartDate(payload.getEffectiveStartDate())
+                .effectiveEndDate(payload.getEffectiveEndDate())
                 .suite(suite)
                 .build();
         return CompletableFuture.completedFuture(rentPriceRepository.save(rentPrice));

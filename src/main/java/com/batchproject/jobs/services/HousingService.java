@@ -1,5 +1,7 @@
 package com.batchproject.jobs.services;
 
+import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
+import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
 import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.models.address.AddressRepository;
 import com.batchproject.jobs.models.housing.HousingBuilding;
@@ -8,7 +10,9 @@ import com.batchproject.jobs.models.housing.HousingDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.Optional;
 
@@ -18,9 +22,10 @@ import java.util.concurrent.CompletableFuture;
 @Service
 @AllArgsConstructor
 public class HousingService {
+    private final PlatformTransactionManager transactionManager;
 
     private HousingBuildingRepository housingBuildingRepository;
-    private AddressRepository addressRepository;
+    private AddressService addressService;
 
     @Async
     public CompletableFuture<List<HousingBuilding>> getAllBuildings() {
@@ -28,23 +33,34 @@ public class HousingService {
     }
 
     @Async
-    public CompletableFuture<Optional<HousingBuilding>> getBuildingById(Long id) {
-        return CompletableFuture.completedFuture(housingBuildingRepository.findById(id));
+    public CompletableFuture<HousingBuilding> getBuildingById(Long id) {
+        return CompletableFuture.completedFuture(housingBuildingRepository.findById(id).orElseThrow(()->new ItemNotFoundException("Housing building not found")));
     }
 
     @Async
     @Transactional
-    public CompletableFuture<HousingBuilding> saveBuilding(HousingDTO payload) {
-        HousingBuilding newBuilding = HousingBuilding.builder()
-                .name(payload.getName())
-                .address(addressRepository.findById(payload.getAddress_id())
-                        .orElseThrow(() -> new RuntimeException("Address not found with id " + payload.getAddress_id())))
-                .hasInHouseLaundry(payload.getHasInHouseLaundry())
-                .possessedOn(payload.getPossessedOn())
-                .builtOn(payload.getBuiltOn())
-                .build();
+    public CompletableFuture<HousingBuilding> createBuilding(HousingDTO payload) {
+        TransactionTemplate template = new TransactionTemplate(transactionManager);
+        return template.execute(status -> {
+            //check if there is already a housing building there, if yes, throw error as one address cnnot have more than one building
+            Address addressObject = addressService.createAddressObject(payload.getAddress());
+            if(addressObject.getId() !=null){
+                Boolean isHouseExists = housingBuildingRepository.existsByAddress(addressObject);
+                if(isHouseExists)
+                    throw new BadDataException("There is already a house there, change the address");
+            }
+            HousingBuilding newBuilding = HousingBuilding.builder()
+                    .name(payload.getName())
+                    .address(addressObject)//this returns the db fetched address if exists otherwise just object as it is with some processing
+                    .hasInHouseLaundry(payload.getHasInHouseLaundry())
+                    .possessedOn(payload.getPossessedOn())
+                    .builtOn(payload.getBuiltOn())
+                    .build();
+//            housingBuildingRepository.flush();
 
-        return CompletableFuture.completedFuture(housingBuildingRepository.save(newBuilding));
+            return CompletableFuture.completedFuture(housingBuildingRepository.save(newBuilding));
+        });
+
     }
 
 
@@ -54,14 +70,14 @@ public class HousingService {
         HousingBuilding building =  housingBuildingRepository.findById(id)
                 .map(housingBuilding ->{
                             housingBuilding.setName(payload.getName());
-                            Address address = addressRepository.findById(payload.getAddress_id()).orElseThrow(()-> new RuntimeException("address not found with id " + id));
-                            housingBuilding.setAddress(address);
+                            //address will be still sent by UI, but we will ignore
+                            //for address update, we will use the address update endpoint.
                             housingBuilding.setHasInHouseLaundry(payload.getHasInHouseLaundry());
                             housingBuilding.setPossessedOn(payload.getPossessedOn());
                             housingBuilding.setBuiltOn(payload.getBuiltOn());
                             return housingBuildingRepository.save(housingBuilding);
                         })
-                .orElseThrow(()-> new RuntimeException("Building not found with id " + id));
+                .orElseThrow(()-> new ItemNotFoundException("Building not found with id " + id));
         return CompletableFuture.completedFuture(building);
     }
 

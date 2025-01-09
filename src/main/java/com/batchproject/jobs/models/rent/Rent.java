@@ -3,6 +3,7 @@ package com.batchproject.jobs.models.rent;
 import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.tenant.TenantProfile;
 import com.batchproject.jobs.models.housing.Suite;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Data;
@@ -24,11 +25,12 @@ public class Rent extends BaseEntity {
     @Column(name = "status")
     private String status;
 
-    @JoinColumn(name = "tenant_profile")
+    @JoinColumn(name = "tenant_profile_id")
     @ManyToOne
     private TenantProfile tenantProfile;
 
     @JoinColumn(name = "suite_id")
     @ManyToOne
+    @JsonIgnore
     private Suite suite;
 }

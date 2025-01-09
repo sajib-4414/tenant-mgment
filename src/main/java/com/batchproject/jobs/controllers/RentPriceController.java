@@ -22,41 +22,25 @@ public class RentPriceController {
     @PostMapping
     public CompletableFuture<ResponseEntity<RentPrice>> setNewRentPrice(@RequestBody RentPriceDTO rentPriceDTO) {
         return rentPriceService.setNewRent(rentPriceDTO)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @GetMapping
     public CompletableFuture<ResponseEntity<List<RentPrice>>> getAllRentPricesBySuite(@PathVariable Long suiteId) {
         return rentPriceService.getAllRentPricesBySuite(suiteId)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
 
     @PutMapping("/{id}")
     public CompletableFuture<ResponseEntity<RentPrice>> updateRentPrice(@PathVariable Long id, @RequestBody RentPriceDTO rentPriceDTO) {
         return rentPriceService.updateOldRent(id, rentPriceDTO)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @DeleteMapping("/{id}")
     public CompletableFuture<ResponseEntity<Void>> deleteRentPrice(@PathVariable Long id) {
         return rentPriceService.deleteRentPrice(id)
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    ex.printStackTrace();
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 }

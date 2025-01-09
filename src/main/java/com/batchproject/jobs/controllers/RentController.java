@@ -20,36 +20,24 @@ public class RentController {
     @GetMapping
     public CompletableFuture<ResponseEntity<List<Rent>>> getAllRents() {
         return rentService.getAllRents()
-                .thenApply(ResponseEntity::ok)
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @PostMapping
     public CompletableFuture<ResponseEntity<Rent>> createRent(@RequestBody RentDTO rentDTO) {
         return rentService.createRent(rentDTO)
-                .thenApply(savedRent -> ResponseEntity.status(HttpStatus.CREATED).body(savedRent))
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @PutMapping("/{id}")
     public CompletableFuture<ResponseEntity<Rent>> updateRent(@PathVariable Long id, @RequestBody RentDTO rentDTO) {
         return rentService.updateRent(id, rentDTO)
-                .thenApply(updatedRent -> ResponseEntity.status(HttpStatus.OK).body(updatedRent))
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 
     @DeleteMapping("/{id}")
     public CompletableFuture<ResponseEntity<Void>> deleteRent(@PathVariable Long id) {
         return rentService.deleteRent(id)
-                .thenApply(response -> ResponseEntity.status(HttpStatus.NO_CONTENT).<Void>build())
-                .exceptionally(ex -> {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-                });
+                .thenApply(ResponseEntity::ok);
     }
 }

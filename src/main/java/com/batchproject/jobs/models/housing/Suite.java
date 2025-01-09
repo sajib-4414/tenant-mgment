@@ -2,6 +2,8 @@ package com.batchproject.jobs.models.housing;
 
 import com.batchproject.jobs.models.BaseEntity;
 import com.batchproject.jobs.models.address.Address;
+import com.batchproject.jobs.models.maintenance.WorkOrder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -17,7 +20,7 @@ import java.time.LocalDate;
 @Table(name = "suite")
 @Entity
 public class Suite extends BaseEntity {
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "address_id", foreignKey = @ForeignKey(name = "fk_address"))
     private Address address;
 
@@ -44,6 +47,9 @@ public class Suite extends BaseEntity {
     @JoinColumn(name = "building_id", foreignKey = @ForeignKey(name = "fk_building"))
     private HousingBuilding building;
 
+    @OneToMany(mappedBy = "suite")
+    @JsonIgnore
+    private List<WorkOrder> workOrderList;
 
 
 }

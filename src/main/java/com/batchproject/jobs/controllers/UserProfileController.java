@@ -19,21 +19,18 @@ public class UserProfileController {
     @PostMapping("/register")
     public CompletableFuture<ResponseEntity<UserProfile>> registerUserProfile(@RequestBody UserProfile payload) {
         return userProfileService.registerUserProfile(payload)
-                .thenApply(savedProfile -> ResponseEntity.status(HttpStatus.CREATED).body(savedProfile))
-                .exceptionally(ex -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .thenApply(savedProfile -> ResponseEntity.status(HttpStatus.CREATED).body(savedProfile));
     }
 
     @PutMapping("/{keycloakUserId}")
     public CompletableFuture<ResponseEntity<UserProfile>> updateUserProfile(@PathVariable String keycloakUserId, @RequestBody UserProfile payload) {
         return userProfileService.updateUserProfile(keycloakUserId, payload)
-                .thenApply(updatedProfile -> ResponseEntity.ok(updatedProfile))
-                .exceptionally(ex -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .thenApply(ResponseEntity::ok);
     }
 
     @DeleteMapping("/{keycloakUserId}")
     public CompletableFuture<ResponseEntity<UserProfile>> deleteUserProfile(@PathVariable String keycloakUserId) {
         return userProfileService.deleteUserProfile(keycloakUserId)
-                .thenApply(response -> ResponseEntity.ok(response))
-                .exceptionally(ex -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                .thenApply(ResponseEntity::ok);
     }
 }

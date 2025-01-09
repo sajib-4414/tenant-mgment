@@ -50,7 +50,11 @@ steps these kind of columns.
 
 
 Features to work
-- option to create a building, then suite(with rent)
+- option to create a building,and address then suite(with rent)
 - option to rent it to somebody
 - option to create rent with spring scheduler
 - option to mark a rent as paid
+
+### Done:
+- address api is functional, crud api.
+- building api is functional, can create building with address, and update building.
