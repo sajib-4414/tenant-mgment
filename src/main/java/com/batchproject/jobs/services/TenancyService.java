@@ -1,5 +1,6 @@
 package com.batchproject.jobs.services;
 
+import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
 import com.batchproject.jobs.models.housing.Suite;
 import com.batchproject.jobs.models.housing.SuiteRepository;
 import com.batchproject.jobs.models.tenant.*;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -36,6 +38,9 @@ public class TenancyService {
         TenantProfile tenantProfile = tenantProfileRepository.findById(tenancyDTO.getTenantProfileId())
                 .orElseThrow(() -> new EntityNotFoundException("TenantProfile not found with id: " + tenancyDTO.getTenantProfileId()));
 
+        LocalDate today = LocalDate.now();
+        if(tenancyDTO.getStartDate().isBefore(today))
+            throw new BadDataException("invalid start date, should be at least today");
         Tenancy tenancy = new Tenancy();
         tenancy.setSuite(suite);
         tenancy.setTenantProfile(tenantProfile);

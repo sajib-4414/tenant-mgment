@@ -96,6 +96,7 @@ public class Address extends BaseEntity implements Cloneable{
         for (byte b : bytes) {
             formatter.format("%02x", b);
         }
+        System.out.println("populated hash is....."+formatter.toString());
         return formatter.toString();
     }
 

@@ -49,6 +49,12 @@ public class HousingService {
                 if(isHouseExists)
                     throw new BadDataException("There is already a house there, change the address");
             }
+            else{
+                //for apartments we will keep the building's addresses' apartment No 0, and ishosue=false
+                //whatever we pass will be ignored.
+                if(!addressObject.getIsHouse())
+                    addressObject.setApartmentNo(0);
+            }
             HousingBuilding newBuilding = HousingBuilding.builder()
                     .name(payload.getName())
                     .address(addressObject)//this returns the db fetched address if exists otherwise just object as it is with some processing

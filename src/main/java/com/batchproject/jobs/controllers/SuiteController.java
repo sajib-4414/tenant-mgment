@@ -3,7 +3,7 @@ package com.batchproject.jobs.controllers;
 
 import com.batchproject.jobs.models.housing.Suite;
 import com.batchproject.jobs.models.housing.SuiteDTO;
-import com.batchproject.jobs.models.housing.SuiteOutputDTO;
+import com.batchproject.jobs.models.housing.SuiteDetailsDTO;
 import com.batchproject.jobs.services.SuitService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,7 +27,7 @@ public class SuiteController {
     }
 
     @GetMapping("/{id}")
-    public CompletableFuture<ResponseEntity<SuiteOutputDTO>> getSuiteById(@PathVariable Long id) {
+    public CompletableFuture<ResponseEntity<SuiteDetailsDTO>> getSuiteById(@PathVariable Long id) {
         return suiteService.getSuiteDetails(id)
                 .thenApply(ResponseEntity::ok);
     }

@@ -54,7 +54,10 @@ Features to work
 - option to rent it to somebody
 - option to create rent with spring scheduler
 - option to mark a rent as paid
+- api to search all suites of a city that are not occupied,
+- api to show building details, with suite list, suite occupancy status, rent.
 
 ### Done:
 - address api is functional, crud api.
 - building api is functional, can create building with address, and update building.
+- suite creation api is functional, detail is functional

@@ -2,6 +2,7 @@ package com.batchproject.jobs.services;
 
 import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
 import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
+import com.batchproject.jobs.models.SysData;
 import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.models.address.AddressRepository;
 import com.batchproject.jobs.models.housing.*;
@@ -30,9 +31,9 @@ public class SuitService {
     }
 
     @Async
-    public CompletableFuture<SuiteOutputDTO> getSuiteDetails(Long id)  {
+    public CompletableFuture<SuiteDetailsDTO> getSuiteDetails(Long id)  {
         Suite suite = suiteRepository.findById(id).orElseThrow(()->new ItemNotFoundException("suite was not found"));
-        SuiteOutputDTO outputDTO = modelMapper.map(suite, SuiteOutputDTO.class);
+        SuiteDetailsDTO outputDTO = modelMapper.map(suite, SuiteDetailsDTO.class);
         outputDTO.setRent(rentPriceRepository.getLatestRentPrice(id));
         return CompletableFuture.completedFuture(outputDTO);
     }
@@ -72,19 +73,26 @@ public class SuitService {
             suiteAddress = buildingAddress;
         }
 
-        // Create Suite entity and populate fields
-        Suite suite = new Suite();
-        suite.setAddress(suiteAddress);
-        suite.setBuiltOn(payload.getBuiltOn());
-        suite.setLastRenovatedOn(payload.getLastRenovatedOn());
-        suite.setNoOfBedRooms(payload.getNoOfBedRooms());
-        suite.setNoOfBathRooms(payload.getNoOfBathRooms());
-        suite.setHaveDedicatedLaundry(payload.getHaveDedicatedLaundry());
-        suite.setFloorNo(payload.getFloorNo());
-        suite.setBuilding(building);
+        try{
+            // Create Suite entity and populate fields
+            System.out.println("printing the address "+suiteAddress);
+            Suite suite = new Suite();
+            suite.setAddress(suiteAddress);
+            suite.setBuiltOn(payload.getBuiltOn());
+            suite.setLastRenovatedOn(payload.getLastRenovatedOn());
+            suite.setNoOfBedRooms(payload.getNoOfBedRooms());
+            suite.setNoOfBathRooms(payload.getNoOfBathRooms());
+            suite.setHaveDedicatedLaundry(payload.getHaveDedicatedLaundry());
+            suite.setFloorNo(payload.getFloorNo());
+            suite.setBuilding(building);
 
-        // Save and return
-        return CompletableFuture.completedFuture(suiteRepository.save(suite));
+            // Save and return
+            return CompletableFuture.completedFuture(suiteRepository.save(suite));
+        }catch (Exception ex){
+            System.out.println("error happened here,,,,,,"+ex);
+            throw ex;
+        }
+
     }
 
     @Async
