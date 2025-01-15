@@ -51,13 +51,21 @@ steps these kind of columns.
 
 Features to work
 - option to create a building,and address then suite(with rent)
-- option to rent it to somebody
-- option to create rent with spring scheduler
+- option to rent it to somebody, terminate tenancy with adding note to tenancy;
+- option to create rent with spring scheduler, spring batch. also option to
+manualy trigger job, passing data. 
+
+these data could be, all the maintenances that are done/more detail
+all the rents are collected recently,
+more example will come. 
 - option to mark a rent as paid
 - api to search all suites of a city that are not occupied,
 - api to show building details, with suite list, suite occupancy status, rent.
+- will do tenant application, approval these things
 
 ### Done:
 - address api is functional, crud api.
 - building api is functional, can create building with address, and update building.
 - suite creation api is functional, detail is functional
+- option to rent it to somebody is done, creating tenancy.
+- terminate tenancy with note(update tenancy)

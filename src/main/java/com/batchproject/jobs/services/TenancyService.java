@@ -3,9 +3,12 @@ package com.batchproject.jobs.services;
 import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
 import com.batchproject.jobs.models.housing.Suite;
 import com.batchproject.jobs.models.housing.SuiteRepository;
+import com.batchproject.jobs.models.rent.RentPrice;
+import com.batchproject.jobs.models.rent.RentPriceRepository;
 import com.batchproject.jobs.models.tenant.*;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ public class TenancyService {
     private final TenancyRepository tenancyRepository;
     private final SuiteRepository suiteRepository;
     private final TenantProfileRepository tenantProfileRepository;
+    private final RentPriceRepository rentPriceRepository;
 
 
 
@@ -46,6 +50,11 @@ public class TenancyService {
         tenancy.setTenantProfile(tenantProfile);
         tenancy.setStartDate(tenancyDTO.getStartDate());
         tenancy.setEndDate(tenancyDTO.getEndDate());
+        //get the latest rent of the suite
+        RentPrice latestRent = rentPriceRepository.getLatestRentPrice(tenancyDTO.getSuiteId());
+        if(latestRent == null)
+            throw new BadDataException("Suite requested does not have any rent associated");
+        tenancy.setRentPaid(latestRent.getRentAmt());
 
         return CompletableFuture.completedFuture(tenancyRepository.save(tenancy));
     }
@@ -56,6 +65,15 @@ public class TenancyService {
                 tenancyRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException("Tenancy not found with id: " + id))
         );
+    }
+
+    @Async
+    public CompletableFuture<List<Tenancy>> getTenancyHistoryBySuite(Long suiteId) {
+        Sort sort = Sort.by(Sort.Direction.DESC, "startDate");
+        var tenancyList = tenancyRepository.findAllBySuite_Id(suiteId, sort);
+        return CompletableFuture.completedFuture(
+                tenancyList);
+
     }
 
     @Async
@@ -72,7 +90,9 @@ public class TenancyService {
         existingTenancy.setTenantProfile(tenantProfile);
         existingTenancy.setStartDate(tenancyDTO.getStartDate());
         existingTenancy.setEndDate(tenancyDTO.getEndDate());
-
+//        existingTenancy.setRentPaid(tenancyDTO); rent is not updateable from tnenacy,
+        //in order to update rent, terminate the current tenancy, update the rent, and recreate another tenancy
+        existingTenancy.setNotes(tenancyDTO.getNotes());
         return CompletableFuture.completedFuture(tenancyRepository.save(existingTenancy));
     }
 
