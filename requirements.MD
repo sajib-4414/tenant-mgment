@@ -77,7 +77,20 @@ more example will come.
 - mciroservicre er vitore, ami ekhon je model gula ansi, r je service gula ansi, ogular vetore onno repository er jesob reference silo
 segula clean kore, just id rakhsi, ejonno repository kisu bad disi, as oi model gula ami r retrtieve korte parbona.
 just id rakhsi. plus database e migration kisu lagte pare. Also entity model update kora lagse, ekhon say Rent Entity er vitore suite nai r, sudu suite id. r entity model er je Suite likhte partam,
-seta r nai, Many to Many, One to many likhte partam segula ar nai. associattion gula r korte parbona, ejonno aro onno code eo change kora lagbe
+seta r nai, Many to Many, One to many likhte partam segula ar nai. associattion gula r korte parbona, ejonno aro onno code eo change kora lagbe.
+ager 
+```
+@JoinColumn(name = "suite_id")
+    @ManyToOne
+    @JsonIgnore
+    private Suite suite;
+```
+now,
+```
+@Column(name = "suite_id")
+    private Long suiteId;
+
+```
 - erpore dekhbo egula functional hoy naki microservice e, still same db.
 - then original project e jaye jekhane jekhane direct call hossilo, but ekhon mciroservice e chole gese(like tenancy, rent)
 egula jaygay jaya repostiory delete kroe dei, ar egula k rest api diya replace kori. feign client use kore kori
