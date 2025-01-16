@@ -69,3 +69,19 @@ more example will come.
 - suite creation api is functional, detail is functional
 - option to rent it to somebody is done, creating tenancy.
 - terminate tenancy with note(update tenancy)
+
+## what I am doing for converting monolith to microservice:
+- I am converting my tenancy, rent,tennat profile these things to another microservice.
+- i identified the domain, context area. I kind of grouped the things that i want to move, in a package.[kori nai but bolbo]
+- i copied the project, both project now using same db, same models. 
+- ami ekhon je model gula ansi, r je service gula ansi, ogular vetore onno repository er jesob reference silo
+segula clean kore, just id rakhsi, ejonno repository kisu bad disi, as oi model gula ami r retrtieve korte parbona.
+just id rakhsi. 
+- erpore dekhbo egula functional hoy naki microservice e, still same db.
+- then original project e jaye jekhane jekhane direct call hossilo, but ekhon mciroservice e chole gese(like tenancy, rent)
+egula jaygay jaya repostiory delete kroe dei, ar egula k rest api diya replace kori. feign client use kore kori
+so dekhte code ta mone hobe ami ekta serevice call e dissi.
+- erpore gradually delete kore dei, mciroservice theke extra controller, model gula.
+- r main project theke delete kroe dei microservice er model, service gula.
+- then integration test update kori main project e, api call diya, r microservice er theke integration test
+jegula main service er silo ogula fele dei.
