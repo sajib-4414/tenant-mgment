@@ -91,6 +91,7 @@ now,
     private Long suiteId;
 
 ```
+- I am starting to think that, i should call the other microservice syncrhonously to validate these things instead of assuming that the suiteid i am getting from the frotnend to create a tenancy, is always correct.
 - erpore dekhbo egula functional hoy naki microservice e, still same db.
 - then original project e jaye jekhane jekhane direct call hossilo, but ekhon mciroservice e chole gese(like tenancy, rent)
 egula jaygay jaya repostiory delete kroe dei, ar egula k rest api diya replace kori. feign client use kore kori
