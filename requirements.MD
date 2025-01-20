@@ -98,6 +98,12 @@ now,
 - then original project e jaye jekhane jekhane direct call hossilo, but ekhon mciroservice e chole gese(like tenancy, rent)
 egula jaygay jaya repostiory delete kroe dei, ar egula k rest api diya replace kori. feign client use kore kori
 so dekhte code ta mone hobe ami ekta serevice call e dissi.
+- ekta problem hoise je, amra jokhon sob kisu ekta monlolith e silo, kisu jinis null ok silo, ogula k microservice e api te convert kore, parent theke okhane call kore data anle, null e ki error throw korbo, naki null ok egula define kora lagse.
+such as: getLatestRentPrice (from rent microservice) for a suite, jodi rent ektao na thake,
+taile age null pathaitam frotnend e null jaito rent, kintu ekhon etake rent microservice e api banaisi,
+r throw korsi 422, parent microservice e just try cath diya suite er rent json response e null pathai disi.
+hoyto onno kono case e trycatch niya null diya response pathano uchit hobena, if mciroserive theke error ase, taile sekhtere hoyto error e pathan lagbe.
+ejonno feing client er error decoder banaisi, sekhan theke error rethrow kortesi, jate almost monolith e jemne method theke error throw korto kono kisu na paile, ekhaneo jate kore ovabe.
 - erpore gradually delete kore dei, mciroservice theke extra controller, model gula.
 - r main project theke delete kroe dei microservice er model, service gula, eta kortesi, etar jonno code update kora lagbe, lots of reference
 - then integration test update kori main project e, api call diya, r microservice er theke integration test

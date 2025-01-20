@@ -34,7 +34,15 @@ public class SuitService {
     public CompletableFuture<SuiteDetailsDTO> getSuiteDetails(Long id)  {
         Suite suite = suiteRepository.findById(id).orElseThrow(()->new ItemNotFoundException("suite was not found"));
         SuiteDetailsDTO outputDTO = modelMapper.map(suite, SuiteDetailsDTO.class);
-        outputDTO.setRent(rentServiceClient.getLatestRentPriceBySuite(id));
+//        outputDTO.setRent(rentServiceClient.getLatestRentPriceBySuite(id));
+        try{
+            outputDTO.setRent(rentServiceClient.getLatestRentPriceBySuite(id));
+        }catch (Exception exception){
+            //getting no rent is ok for displaying the suite only. so we are setting it to null
+            System.out.println("rent price was not available from rent service"+exception);
+            outputDTO.setRent(null);
+        }
+
         return CompletableFuture.completedFuture(outputDTO);
     }
 
