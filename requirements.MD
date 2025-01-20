@@ -92,11 +92,13 @@ now,
 
 ```
 - I am starting to think that, i should call the other microservice syncrhonously to validate these things instead of assuming that the suiteid i am getting from the frotnend to create a tenancy, is always correct.
+- kisu new api add kora lagbe microservice e now ar ogular fein client banan lagbe parent e, as kisu detail lagle ogula call diye ene nibo..
+- ekta challange pailam je, api er response e j model declare korsilam, ogula abar parent microservice e anai lagse. like rentprice model for rent price list(of a suite) API. tahole amar model change korle microsevice e , eta parent eo change kora lagbe.
 - erpore dekhbo egula functional hoy naki microservice e, still same db.
 - then original project e jaye jekhane jekhane direct call hossilo, but ekhon mciroservice e chole gese(like tenancy, rent)
 egula jaygay jaya repostiory delete kroe dei, ar egula k rest api diya replace kori. feign client use kore kori
 so dekhte code ta mone hobe ami ekta serevice call e dissi.
 - erpore gradually delete kore dei, mciroservice theke extra controller, model gula.
-- r main project theke delete kroe dei microservice er model, service gula.
+- r main project theke delete kroe dei microservice er model, service gula, eta kortesi, etar jonno code update kora lagbe, lots of reference
 - then integration test update kori main project e, api call diya, r microservice er theke integration test
 jegula main service er silo ogula fele dei.

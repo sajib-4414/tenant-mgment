@@ -1,7 +1,8 @@
 package com.batchproject.jobs.models.housing;
 
+
+import com.batchproject.jobs.externalservice.RentPriceExternal;
 import com.batchproject.jobs.models.address.Address;
-import com.batchproject.jobs.models.rent.RentPrice;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -17,5 +18,5 @@ public class SuiteDetailsDTO {
     private Integer floorNo;
     private Address address;
     private HousingBuilding building;
-    private RentPrice rent;
+    private RentPriceExternal rent;
 }

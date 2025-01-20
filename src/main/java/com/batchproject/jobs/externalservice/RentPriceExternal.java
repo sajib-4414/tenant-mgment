@@ -1,12 +1,13 @@
-package com.batchproject.jobs.models.rent;
+package com.batchproject.jobs.externalservice;
 
+import com.batchproject.jobs.models.BaseEntity;
+import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.time.LocalDate;
 
 @Data
-public class RentPriceDTO {
-
+public class RentPriceExternal extends BaseEntity {
     private LocalDate effectiveStartDate;
     private LocalDate effectiveEndDate;
     private Double rentAmt;

@@ -2,11 +2,10 @@ package com.batchproject.jobs.services;
 
 import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
 import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
-import com.batchproject.jobs.models.SysData;
+import com.batchproject.jobs.externalservice.RentServiceClient;
 import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.models.address.AddressRepository;
 import com.batchproject.jobs.models.housing.*;
-import com.batchproject.jobs.models.rent.RentPriceRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
@@ -21,7 +20,8 @@ import java.util.concurrent.CompletableFuture;
 public class SuitService {
     private final SuiteRepository suiteRepository;
     private final HousingBuildingRepository housingBuildingRepository;
-    private final RentPriceRepository rentPriceRepository;
+    private final RentServiceClient rentServiceClient;
+//    private final RentPriceRepository rentPriceRepository;
     private final AddressRepository addressRepository;
     private ModelMapper modelMapper;
 
@@ -34,7 +34,7 @@ public class SuitService {
     public CompletableFuture<SuiteDetailsDTO> getSuiteDetails(Long id)  {
         Suite suite = suiteRepository.findById(id).orElseThrow(()->new ItemNotFoundException("suite was not found"));
         SuiteDetailsDTO outputDTO = modelMapper.map(suite, SuiteDetailsDTO.class);
-        outputDTO.setRent(rentPriceRepository.getLatestRentPrice(id));
+        outputDTO.setRent(rentServiceClient.getLatestRentPriceBySuite(id));
         return CompletableFuture.completedFuture(outputDTO);
     }
 
