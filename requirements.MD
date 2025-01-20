@@ -105,6 +105,11 @@ r throw korsi 422, parent microservice e just try cath diya suite er rent json r
 hoyto onno kono case e trycatch niya null diya response pathano uchit hobena, if mciroserive theke error ase, taile sekhtere hoyto error e pathan lagbe.
 ejonno feing client er error decoder banaisi, sekhan theke error rethrow kortesi, jate almost monolith e jemne method theke error throw korto kono kisu na paile, ekhaneo jate kore ovabe.
 - erpore gradually delete kore dei, mciroservice theke extra controller, model gula.
+
+evabe naki korake **Strangler Fig** pattern bole. Strangler Fig" pattern where you incrementally extract functionality from the monolith into separate services while still relying on the shared database for data storage.
+
 - r main project theke delete kroe dei microservice er model, service gula, eta kortesi, etar jonno code update kora lagbe, lots of reference
 - then integration test update kori main project e, api call diya, r microservice er theke integration test
 jegula main service er silo ogula fele dei.
+
+- erkm vabe first e syncrhonously kaj korle duta microservice, ami pore etake event based korbo event driven hobe. 
