@@ -5,6 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -12,4 +13,7 @@ import java.util.List;
 public interface RentServiceClient {
     @GetMapping("/api/rent-price/get-latest-rent-price/{suiteId}")
     RentPriceExternal getLatestRentPriceBySuite(@PathVariable("suiteId") Long suiteId);
+
+    @PostMapping("/api/rent-price")
+    RentPriceExternal setNewRentPrice(@PathVariable("suiteId") Long suiteId);
 }

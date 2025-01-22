@@ -113,3 +113,12 @@ evabe naki korake **Strangler Fig** pattern bole. Strangler Fig" pattern where y
 jegula main service er silo ogula fele dei.
 
 - erkm vabe first e syncrhonously kaj korle duta microservice, ami pore etake event based korbo event driven hobe. 
+## Database migration: most tricky:
+- ami jeta korsi first e main db er schema only backup nisi sql
+`pg_dump --schema-only --no-owner --no-privileges -h hostname -p 27264 -U username -d tenant_jobs_db > schema_backup.sql`
+- oi backup theke sudhu jegula microservice er lagbe osob rakhsi baki sob commented out
+- also relationship er gula edit korsi, jesob relationship ekhon r possible na, segula comment out/change korsi, for example, tenant history er suiteId suite table k point korto ekhon r korbena.
+- ekhon new db create kore, ekta migration file e flyaway te eta diya dibo. actually eto table eto constraint, ekta flyawy file e na, ami gradually kortesi ekta table kore ekta migration, plus orm error dissilo baki table koi, ejonno ekta ekta kore migraion for one table, r baki orm e entity,tablename egula comment out korsi temporarily
+- so flyaway first migration hisabe esob table niye nibe
+- erpore plan ase ager db theke sudu osob table er data backup nibo, then ogula pgdump ba konovabe insert korbo new db te, constraint disable kora lage ekhane kokhono kohono temporarily, amar lage nai
+`psql -h <new_host> -p <new_port> -U <new_username> -d <new_database> < data_backup.sql`

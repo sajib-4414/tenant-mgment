@@ -15,4 +15,5 @@ public class SuiteDTO {
     private Boolean haveDedicatedLaundry;
     private Integer floorNo;
     private Long buildingId;
+    private Double rent;//this will be the active new rent price from today
 }
