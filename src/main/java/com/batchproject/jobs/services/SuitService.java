@@ -2,6 +2,7 @@ package com.batchproject.jobs.services;
 
 import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
 import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
+import com.batchproject.jobs.externalservice.RentPriceExternalDTO;
 import com.batchproject.jobs.externalservice.RentServiceClient;
 import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.models.address.AddressRepository;
@@ -12,6 +13,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -83,7 +85,7 @@ public class SuitService {
 
         try{
             // Create Suite entity and populate fields
-            System.out.println("printing the address "+suiteAddress);
+//            System.out.println("printing the address "+suiteAddress);
             Suite suite = new Suite();
             suite.setAddress(suiteAddress);
             suite.setBuiltOn(payload.getBuiltOn());
@@ -94,8 +96,21 @@ public class SuitService {
             suite.setFloorNo(payload.getFloorNo());
             suite.setBuilding(building);
 
+            suiteRepository.save(suite);
+
+            //also create a rentprice in rent microservice
+            //if rent was supplied
+            if(payload.getRent() !=null){
+                RentPriceExternalDTO rentPriceBody = RentPriceExternalDTO.builder()
+                        .effectiveStartDate(LocalDate.now())
+                        .suiteId(suite.getId())
+                        .rentAmt(payload.getRent())
+                        .build();
+                rentServiceClient.setNewRentPrice(rentPriceBody); //it will throw exception if there is 4xx errors
+            }
+
             // Save and return
-            return CompletableFuture.completedFuture(suiteRepository.save(suite));
+            return CompletableFuture.completedFuture(suite);
         }catch (Exception ex){
             System.out.println("error happened here,,,,,,"+ex);
             throw ex;

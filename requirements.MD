@@ -111,7 +111,8 @@ evabe naki korake **Strangler Fig** pattern bole. Strangler Fig" pattern where y
 - r main project theke delete kroe dei microservice er model, service gula, eta kortesi, etar jonno code update kora lagbe, lots of reference
 - then integration test update kori main project e, api call diya, r microservice er theke integration test
 jegula main service er silo ogula fele dei.
-
+-also dekhlam DTO to age jantam ki, ekhon to feign client diya hit krote dto janina, dto copy kora lagse.
+so ekhon dto gula consistent rakha lagtese. maybe better way hote pare package kora sepearte.
 - erkm vabe first e syncrhonously kaj korle duta microservice, ami pore etake event based korbo event driven hobe. 
 ## Database migration: most tricky:
 - ami jeta korsi first e main db er schema only backup nisi sql
@@ -122,3 +123,4 @@ jegula main service er silo ogula fele dei.
 - so flyaway first migration hisabe esob table niye nibe
 - erpore plan ase ager db theke sudu osob table er data backup nibo, then ogula pgdump ba konovabe insert korbo new db te, constraint disable kora lage ekhane kokhono kohono temporarily, amar lage nai
 `psql -h <new_host> -p <new_port> -U <new_username> -d <new_database> < data_backup.sql`
+- pgdump theke j sql nisi ogulate somossa hoise like primary key seria hossilona
