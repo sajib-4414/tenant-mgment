@@ -33,7 +33,7 @@ public class SuiteController {
     }
 
     @PostMapping
-    public CompletableFuture<ResponseEntity<Suite>> createSuite(@RequestBody SuiteDTO suiteDTO) throws CloneNotSupportedException {
+    public CompletableFuture<ResponseEntity<SuiteDetailsDTO>> createSuite(@RequestBody SuiteDTO suiteDTO) throws CloneNotSupportedException {
         return suiteService.createSuite(suiteDTO)
                 .thenApply(ResponseEntity::ok);
     }

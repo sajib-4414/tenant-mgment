@@ -2,6 +2,7 @@ package com.batchproject.jobs.services;
 
 import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
 import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
+import com.batchproject.jobs.externalservice.RentPriceExternal;
 import com.batchproject.jobs.externalservice.RentPriceExternalDTO;
 import com.batchproject.jobs.externalservice.RentServiceClient;
 import com.batchproject.jobs.models.address.Address;
@@ -50,7 +51,7 @@ public class SuitService {
 
     @Async
     @Transactional
-    public CompletableFuture<Suite> createSuite(SuiteDTO payload) throws CloneNotSupportedException {
+    public CompletableFuture<SuiteDetailsDTO> createSuite(SuiteDTO payload) throws CloneNotSupportedException {
         // Fetch associated entities by IDs
 
         HousingBuilding building = housingBuildingRepository.findById(payload.getBuildingId())
@@ -97,7 +98,7 @@ public class SuitService {
             suite.setBuilding(building);
 
             suiteRepository.save(suite);
-
+            SuiteDetailsDTO outputDTO = modelMapper.map(suite, SuiteDetailsDTO.class);
             //also create a rentprice in rent microservice
             //if rent was supplied
             if(payload.getRent() !=null){
@@ -106,11 +107,16 @@ public class SuitService {
                         .suiteId(suite.getId())
                         .rentAmt(payload.getRent())
                         .build();
-                rentServiceClient.setNewRentPrice(rentPriceBody); //it will throw exception if there is 4xx errors
+                RentPriceExternal rentPrice=  rentServiceClient.setNewRentPrice(rentPriceBody); //it will throw exception if there is 4xx errors
+                outputDTO.setRent(rentPrice);
             }
 
+
+
+
+
             // Save and return
-            return CompletableFuture.completedFuture(suite);
+            return CompletableFuture.completedFuture(outputDTO);
         }catch (Exception ex){
             System.out.println("error happened here,,,,,,"+ex);
             throw ex;

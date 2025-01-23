@@ -123,4 +123,28 @@ so ekhon dto gula consistent rakha lagtese. maybe better way hote pare package k
 - so flyaway first migration hisabe esob table niye nibe
 - erpore plan ase ager db theke sudu osob table er data backup nibo, then ogula pgdump ba konovabe insert korbo new db te, constraint disable kora lage ekhane kokhono kohono temporarily, amar lage nai
 `psql -h <new_host> -p <new_port> -U <new_username> -d <new_database> < data_backup.sql`
-- pgdump theke j sql nisi ogulate somossa hoise like primary key seria hossilona
+- pgdump theke j sql nisi ogulate somossa hoise like primary key serial hossilona. karon ami migration kore table bananor somoy just declare kore disi bigserial in the beginning,
+but postgres theke jokhon dump niye migration chalaisi, dekhi postgres eta onnovabe korse. id primary key autoincrement korte
+postgres korse ki, id type bigint rakhse ar serial pore banay assign korse. eta change kroe bigserial kora jabena.
+however ami jokhon migration first e likhsi id type e silo bigserial.
+so postgres dump generated sql file use korar karone, implementation ta vinno hoye gese.
+ejonno jpa repostiry automatic incremental id generate korte partesilona, somadhan silo entity model e
+diye deya sequence no. psotgres er alada kore serial implement koray entity model r dhorte partesilona automatic.
+Now, ami to id rakhsi basemodel e, ejonno amr base model er id override kora lagse onno model e
+r sequence name bole deya lagse. egula hotona jodi ami postgres implementaion ondher moto copy na kortam.
+```java
+@Entity
+@AttributeOverrides({
+        @AttributeOverride(name = "id", column = @Column(name = "id", unique = true, nullable = false))
+})
+@Table(name = "rent_price")
+public class RentPrice extends BaseEntity {
+
+    //although id exists in base entity, i had to override like this to manually connect
+     //to the sequence psotgres dump generated 
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "rent_price_id_seq")
+    @SequenceGenerator(name = "rent_price_id_seq", sequenceName = "rent_price_id_seq", allocationSize = 1)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private Long id;
+
+```
