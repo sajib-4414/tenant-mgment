@@ -148,3 +148,8 @@ public class RentPrice extends BaseEntity {
     private Long id;
 
 ```
+- actually egula koreo kaj hoynai, nana somoossa then migration file falay diya, ager migration dekhe dekhe thik jevabe
+table create korsilam ovabe table create kori abar, migration file manually likhi. ekhane kosto kora lagse je
+postgres dump r ager migration dekhe compare kore kivabe likhle ager moto hobe r predictable hobe r
+sequence niye issue hobena like(not declaring sequence but having bigserial) egula kore mgiration abar kora lagse.
+like amar nijer migration banan lagse, say, ami first migration e ekta table banaisioam ekrokom, porer sob migration study kroe, new migraiton banaisi jate table schema match hoy, serial  index e somossa na hoy.

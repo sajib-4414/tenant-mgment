@@ -107,7 +107,9 @@ public class SuitService {
                         .suiteId(suite.getId())
                         .rentAmt(payload.getRent())
                         .build();
+
                 RentPriceExternal rentPrice=  rentServiceClient.setNewRentPrice(rentPriceBody); //it will throw exception if there is 4xx errors
+                System.out.println("response coming as ...."+rentPrice);
                 outputDTO.setRent(rentPrice);
             }
 
