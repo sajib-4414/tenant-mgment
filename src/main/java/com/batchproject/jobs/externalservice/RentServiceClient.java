@@ -1,6 +1,7 @@
 package com.batchproject.jobs.externalservice;
 
 import com.batchproject.jobs.configs.FeignClientConfig;
+import com.batchproject.jobs.models.BulkIdPayload;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,9 @@ import java.util.List;
 public interface RentServiceClient {
     @GetMapping("/api/rent-price/get-latest-rent-price/{suiteId}")
     RentPriceExternal getLatestRentPriceBySuite(@PathVariable("suiteId") Long suiteId);
+
+    @GetMapping("/api/rent-price/get-latest-rent-price-bulk")
+    List<RentPriceExternal> getLatestRentPriceMultipleSuites(@RequestBody BulkIdPayload payload);
 
     @PostMapping("/api/rent-price")
     RentPriceExternal setNewRentPrice(@RequestBody RentPriceExternalDTO requestBody);

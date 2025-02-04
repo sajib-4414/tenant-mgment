@@ -157,3 +157,4 @@ table create korsilam ovabe table create kori abar, migration file manually likh
 postgres dump r ager migration dekhe compare kore kivabe likhle ager moto hobe r predictable hobe r
 sequence niye issue hobena like(not declaring sequence but having bigserial) egula kore mgiration abar kora lagse.
 like amar nijer migration banan lagse, say, ami first migration e ekta table banaisioam ekrokom, porer sob migration study kroe, new migraiton banaisi jate table schema match hoy, serial  index e somossa na hoy.
+- accha ei microservice e vangar por thekei jodi request kora lage first microservice theke second tay, taile request body er DTO ta dui microservie ei thaka lagto. sprng boot e ami ekta common module banay local maven repostiory te diya use krosilam, share er jonno, but python e eta pypi package hisabne deya jay, nodejs e npm package akare deya jay

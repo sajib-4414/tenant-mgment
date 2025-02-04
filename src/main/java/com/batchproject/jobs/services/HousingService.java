@@ -2,6 +2,10 @@ package com.batchproject.jobs.services;
 
 import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataException;
 import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
+import com.batchproject.jobs.externalservice.RentPriceExternal;
+import com.batchproject.jobs.externalservice.RentPriceExternalDTO;
+import com.batchproject.jobs.externalservice.RentServiceClient;
+import com.batchproject.jobs.models.BulkIdPayload;
 import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.models.address.AddressRepository;
 import com.batchproject.jobs.models.housing.*;
@@ -13,6 +17,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import java.util.List;
@@ -23,6 +29,7 @@ import java.util.concurrent.CompletionStage;
 @AllArgsConstructor
 public class HousingService {
     private final PlatformTransactionManager transactionManager;
+    private final RentServiceClient rentServiceClient;
 
     private HousingBuildingRepository housingBuildingRepository;
     private AddressService addressService;
@@ -39,8 +46,8 @@ public class HousingService {
     }
 
     @Async
-    @Transactional
     public CompletableFuture<HousingBuilding> createBuilding(HousingDTO payload) {
+        //this is a custom transaction boundary
         TransactionTemplate template = new TransactionTemplate(transactionManager);
         return template.execute(status -> {
             //check if there is already a housing building there, if yes, throw error as one address cnnot have more than one building
@@ -110,9 +117,22 @@ public class HousingService {
         //then suites
         //lets get the suite list
         List<Suite> suiteList = housingBuilding.getSuites();
+        List<Long> ids = suiteList.stream().map(suite -> suite.getId()).toList();
+        BulkIdPayload payload = new BulkIdPayload();
+        payload.setIds(ids);
+        List<RentPriceExternal> listOfRent = rentServiceClient.getLatestRentPriceMultipleSuites(payload);
+        //need to do the mapping, because for some of the suites there is rentPrice found.
+        Map<Long, RentPriceExternal> idMap = new HashMap();
+        listOfRent.stream().forEach(rent -> idMap.put(rent.getId(), rent));
         List<SuiteDetailsDTO> suiteDetailsDTOList = suiteList.stream()
-                .map(suite -> {
-
+                .map(suite ->{
+                    SuiteDetailsDTO dto = new SuiteDetailsDTO();
+                    modelMapper.map(suite, dto);
+                    dto.setRent(idMap.getOrDefault(suite.getId(),null));
+                    return dto;
                 })
+                .toList();
+        output.setSuiteList(suiteDetailsDTOList);
+        return CompletableFuture.completedFuture(output);
     }
 }

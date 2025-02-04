@@ -3,6 +3,7 @@ package com.batchproject.jobs.controllers;
 import com.batchproject.jobs.models.SysData;
 import com.batchproject.jobs.models.housing.HousingBuilding;
 import com.batchproject.jobs.models.housing.HousingDTO;
+import com.batchproject.jobs.models.housing.HousingDetailsDTO;
 import com.batchproject.jobs.services.HousingService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -38,9 +39,9 @@ public class HousingController {
     }
 
     @GetMapping("/full-details/{id}")
-    public CompletableFuture<ResponseEntity<HousingBuilding>> getBuildingFullDetails(@PathVariable Long buildingId) {
+    public CompletableFuture<ResponseEntity<HousingDetailsDTO>> getBuildingFullDetails(@PathVariable Long buildingId) {
 
-        CompletableFuture<ResponseEntity<HousingBuilding>> future = housingService.getFullBuildingDetails(buildingId)
+        CompletableFuture<ResponseEntity<HousingDetailsDTO>> future = housingService.getFullBuildingDetails(buildingId)
                 .thenApply(ResponseEntity::ok);
 
         return future;
