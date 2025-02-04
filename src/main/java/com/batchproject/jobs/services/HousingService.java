@@ -4,10 +4,9 @@ import com.batchproject.jobs.configs.exceptions.customexceptions.BadDataExceptio
 import com.batchproject.jobs.configs.exceptions.customexceptions.ItemNotFoundException;
 import com.batchproject.jobs.models.address.Address;
 import com.batchproject.jobs.models.address.AddressRepository;
-import com.batchproject.jobs.models.housing.HousingBuilding;
-import com.batchproject.jobs.models.housing.HousingBuildingRepository;
-import com.batchproject.jobs.models.housing.HousingDTO;
+import com.batchproject.jobs.models.housing.*;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -18,6 +17,7 @@ import java.util.Optional;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +26,7 @@ public class HousingService {
 
     private HousingBuildingRepository housingBuildingRepository;
     private AddressService addressService;
+    private ModelMapper modelMapper;
 
     @Async
     public CompletableFuture<List<HousingBuilding>> getAllBuildings() {
@@ -99,4 +100,19 @@ public class HousingService {
     }
 
 
+    @Async
+    public CompletableFuture<HousingDetailsDTO> getFullBuildingDetails(Long buildingId) {
+
+        //first building
+        HousingBuilding housingBuilding = housingBuildingRepository.findById(buildingId).orElseThrow(()->new ItemNotFoundException("Building not found with ID"));
+        HousingDetailsDTO output = new HousingDetailsDTO();
+        modelMapper.map(housingBuilding,output);
+        //then suites
+        //lets get the suite list
+        List<Suite> suiteList = housingBuilding.getSuites();
+        List<SuiteDetailsDTO> suiteDetailsDTOList = suiteList.stream()
+                .map(suite -> {
+
+                })
+    }
 }

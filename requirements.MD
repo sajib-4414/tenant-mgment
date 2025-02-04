@@ -57,10 +57,14 @@ manualy trigger job, passing data.
 
 these data could be, all the maintenances that are done/more detail
 all the rents are collected recently,
+- api to show building details, with suite list, suite occupancy status, rent.
+- scheduling rent creation, then create batch job
+- create batch job to update rent, 
+- do very big payload to update rent, and write down what problem i face.
 more example will come. 
 - option to mark a rent as paid
 - api to search all suites of a city that are not occupied,
-- api to show building details, with suite list, suite occupancy status, rent.
+
 - will do tenant application, approval these things
 
 ### Done:
