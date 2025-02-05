@@ -2,8 +2,11 @@ package com.batchproject.jobs.configs;
 
 import com.batchproject.jobs.configs.exceptions.customexceptions.*;
 import feign.Response;
+import feign.Util;
 import feign.codec.ErrorDecoder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+
+import java.io.IOException;
 
 @ControllerAdvice
 public class FeignClientErrorDecoder implements ErrorDecoder {
@@ -12,6 +15,15 @@ public class FeignClientErrorDecoder implements ErrorDecoder {
     @Override
     public Exception decode(String methodKey, Response response) {
         if (response.status() >= 400 && response.status() <= 499) {
+            String errorMessage = "Error response came from rent service: " + response.status() + " " + response.reason();
+            try {
+                if (response.body() != null) {
+                    errorMessage += ", Body: " + Util.toString(response.body().asReader());
+                }
+            } catch (IOException e) {
+                errorMessage += ", Error reading body: " + e.getMessage();
+            }
+            System.out.println(errorMessage);
             switch (response.status()) {
                 case 404:
                     return new ItemNotFoundException("Resource not found in rent-service");

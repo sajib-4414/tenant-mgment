@@ -38,7 +38,7 @@ public class HousingController {
         return future;
     }
 
-    @GetMapping("/full-details/{id}")
+    @GetMapping("/full-details/{buildingId}")
     public CompletableFuture<ResponseEntity<HousingDetailsDTO>> getBuildingFullDetails(@PathVariable Long buildingId) {
 
         CompletableFuture<ResponseEntity<HousingDetailsDTO>> future = housingService.getFullBuildingDetails(buildingId)

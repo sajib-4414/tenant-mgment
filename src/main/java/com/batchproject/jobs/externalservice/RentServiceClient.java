@@ -16,7 +16,7 @@ public interface RentServiceClient {
     @GetMapping("/api/rent-price/get-latest-rent-price/{suiteId}")
     RentPriceExternal getLatestRentPriceBySuite(@PathVariable("suiteId") Long suiteId);
 
-    @GetMapping("/api/rent-price/get-latest-rent-price-bulk")
+    @PostMapping("/api/rent-price/get-latest-rent-price-bulk")
     List<RentPriceExternal> getLatestRentPriceMultipleSuites(@RequestBody BulkIdPayload payload);
 
     @PostMapping("/api/rent-price")
