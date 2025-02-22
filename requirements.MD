@@ -158,3 +158,16 @@ postgres dump r ager migration dekhe compare kore kivabe likhle ager moto hobe r
 sequence niye issue hobena like(not declaring sequence but having bigserial) egula kore mgiration abar kora lagse.
 like amar nijer migration banan lagse, say, ami first migration e ekta table banaisioam ekrokom, porer sob migration study kroe, new migraiton banaisi jate table schema match hoy, serial  index e somossa na hoy.
 - accha ei microservice e vangar por thekei jodi request kora lage first microservice theke second tay, taile request body er DTO ta dui microservie ei thaka lagto. sprng boot e ami ekta common module banay local maven repostiory te diya use krosilam, share er jonno, but python e eta pypi package hisabne deya jay, nodejs e npm package akare deya jay
+- arekta jinis kora lagbe, but real life e kroe ekta video te bolse, amio bolbo interview te je,
+migration korar pore ami, first e read api gula new microservice e pathai api gateway theke
+but write api gula original service e dual write kori, like original project e, duita db source banai,
+ekta new microservice DB source, arekta original service's source.
+then write api gula te dui db source ei likhte thaki, but read er jonno new mircoservice theke,
+jokhon dekhi kaj kore, tokhon gradually kisu api write bondho kori second service DB te, r oi api gular
+hit jate second microservice e jay sei bebostha kori, erkm kore sob api gula second service e transfer 
+korar pore, first microservice theke oi api gula kete dei, je now service fully capable with pers service DB.
+erpore ami first microservice theke oi sob table grudually delete kori jegula second microservice handle kortese. ar second microservice jesob kaj kortesena, segular api ghete oi api gulao kati, r table delete kori.
+ei kajer somoy db migration kore constraint drop kora lagse kisu primary key foreign key duita DB thekei.
+
+-overall uporer jei pattern bolsi, ar ami jerokom korsi, eta milay ekta kore dekha lagbe,
+naile real experience hocchena
